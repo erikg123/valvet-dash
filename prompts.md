@@ -26,3 +26,16 @@ Conventions:
 • Update this file when you think it's necessary.
 
 Format/rephrase it as you prefer
+
+## #2 — Customer Dashboard Design
+
+Design a customer dashboard based on a reference screenshot (sidebar + metrics cards + content cards layout). Adapted for consulting/staffing data fields:
+- Customer, Assignment duration, Price, Margin, Total revenue, Accumulated margin, Hours worked per month, Previous assignments, Skills/Competence
+
+Key decisions:
+- Sidebar lists consultants — clicking one shows their individual page
+- Summary page shows aggregated data for all consultants
+- Single-page app with JS view switching (no page reloads)
+- Hardcoded mock data (6 consultants with Swedish company names)
+- SVG circular progress rings for margin percentages
+- Soft pastel color palette, mobile-first responsive layout

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valvet Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-stone-50 text-gray-900">
+
+  <div class="flex min-h-screen">
+
+    <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black/30 z-40 lg:hidden"></div>
+
+    <aside id="sidebar" class="fixed flex flex-col w-72 h-screen p-6 bg-white border-r border-gray-100 z-50 -translate-x-full transition-transform lg:translate-x-0">
+
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold text-orange-500">Valvet</h1>
+      </div>
+
+      <nav class="flex flex-col flex-1 gap-1">
+        <button id="nav-summary" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-orange-600 bg-orange-50 rounded-xl" onclick="navigateTo('summary')">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1" />
+          </svg>
+          Dashboard
+        </button>
+
+        <div class="mt-6 mb-2 px-4">
+          <span class="text-xs font-semibold tracking-wider text-gray-400 uppercase">Consultants</span>
+        </div>
+
+        <div id="consultant-list" class="flex flex-col gap-1 overflow-y-auto"></div>
+
+        <div class="mt-auto flex flex-col gap-1 pt-4 border-t border-gray-100">
+          <button class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-500 rounded-xl hover:bg-gray-50" onclick="alert('Settings coming soon')">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Settings
+          </button>
+          <button class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-500 rounded-xl hover:bg-gray-50" onclick="alert('Logout coming soon')">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Log Out
+          </button>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 px-4 py-6 sm:px-6 md:px-8 lg:ml-72">
+
+      <div class="flex items-center gap-4 mb-8">
+        <button id="menu-btn" class="flex items-center justify-center w-10 h-10 text-gray-500 bg-white rounded-xl shadow-sm border border-gray-200 lg:hidden" onclick="toggleSidebar()">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <div class="relative flex-1">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input class="block w-full pl-10 pr-4 py-3 text-sm text-gray-700 bg-white rounded-xl shadow-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" type="text" placeholder="Search customer, consultant, assignment..." />
+        </div>
+        <button class="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-600 bg-white rounded-xl shadow-sm border border-gray-200 hover:bg-gray-50">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+          </svg>
+          Filters
+        </button>
+      </div>
+
+      <div id="main-content"></div>
+
+    </main>
+  </div>
+
+<script>
+const consultants = [
+  {
+    id: 1,
+    name: "Erik Andersson",
+    initials: "EA",
+    currentAssignment: {
+      customer: "Volvo Group",
+      duration: "Jan 2025 – Dec 2025",
+      price: 950,
+      margin: 35,
+      totalRevenue: 456000,
+      accumulatedMargin: 159600,
+      hoursPerMonth: 160,
+      skills: ["React", "TypeScript", "AWS"]
+    },
+    previousAssignments: [
+      { customer: "Spotify", duration: "Mar 2024 – Dec 2024", price: 850, margin: 30 },
+      { customer: "Klarna", duration: "Jun 2023 – Feb 2024", price: 800, margin: 28 }
+    ]
+  },
+  {
+    id: 2,
+    name: "Anna Johansson",
+    initials: "AJ",
+    currentAssignment: {
+      customer: "H&M Digital",
+      duration: "Mar 2025 – Feb 2026",
+      price: 1050,
+      margin: 42,
+      totalRevenue: 630000,
+      accumulatedMargin: 264600,
+      hoursPerMonth: 168,
+      skills: ["Java", "Spring Boot", "Kubernetes"]
+    },
+    previousAssignments: [
+      { customer: "Ericsson", duration: "Jan 2024 – Feb 2025", price: 950, margin: 38 }
+    ]
+  },
+  {
+    id: 3,
+    name: "Johan Karlsson",
+    initials: "JK",
+    currentAssignment: {
+      customer: "SEB Bank",
+      duration: "Sep 2025 – Aug 2026",
+      price: 1100,
+      margin: 38,
+      totalRevenue: 264000,
+      accumulatedMargin: 100320,
+      hoursPerMonth: 152,
+      skills: ["Python", "Machine Learning", "Azure"]
+    },
+    previousAssignments: [
+      { customer: "Nordea", duration: "Feb 2024 – Aug 2025", price: 1000, margin: 34 },
+      { customer: "Handelsbanken", duration: "May 2023 – Jan 2024", price: 900, margin: 30 },
+      { customer: "Swedbank", duration: "Jan 2022 – Apr 2023", price: 850, margin: 27 }
+    ]
+  },
+  {
+    id: 4,
+    name: "Maria Lindberg",
+    initials: "ML",
+    currentAssignment: {
+      customer: "IKEA Digital",
+      duration: "Jun 2025 – May 2026",
+      price: 900,
+      margin: 32,
+      totalRevenue: 216000,
+      accumulatedMargin: 69120,
+      hoursPerMonth: 160,
+      skills: ["UX Design", "Figma", "CSS"]
+    },
+    previousAssignments: [
+      { customer: "Spotify", duration: "Aug 2024 – May 2025", price: 850, margin: 29 }
+    ]
+  },
+  {
+    id: 5,
+    name: "Oscar Nilsson",
+    initials: "ON",
+    currentAssignment: {
+      customer: "Scania",
+      duration: "Feb 2025 – Jan 2026",
+      price: 980,
+      margin: 36,
+      totalRevenue: 392000,
+      accumulatedMargin: 141120,
+      hoursPerMonth: 144,
+      skills: ["C#", ".NET", "SQL Server", "DevOps"]
+    },
+    previousAssignments: [
+      { customer: "ABB", duration: "Mar 2023 – Jan 2025", price: 920, margin: 33 },
+      { customer: "Atlas Copco", duration: "Sep 2022 – Feb 2023", price: 870, margin: 28 }
+    ]
+  },
+  {
+    id: 6,
+    name: "Sara Bergström",
+    initials: "SB",
+    currentAssignment: {
+      customer: "Telia",
+      duration: "Apr 2025 – Mar 2026",
+      price: 1020,
+      margin: 40,
+      totalRevenue: 306000,
+      accumulatedMargin: 122400,
+      hoursPerMonth: 160,
+      skills: ["Go", "Microservices", "GCP", "Terraform"]
+    },
+    previousAssignments: [
+      { customer: "Tre Sweden", duration: "Jun 2024 – Mar 2025", price: 950, margin: 35 },
+      { customer: "Telenor", duration: "Jan 2023 – May 2024", price: 880, margin: 31 }
+    ]
+  }
+];
+
+let currentView = { type: "summary" };
+
+const avatarColors = [
+  { bg: "bg-orange-100", text: "text-orange-600" },
+  { bg: "bg-purple-100", text: "text-purple-600" },
+  { bg: "bg-blue-100", text: "text-blue-600" },
+  { bg: "bg-green-100", text: "text-green-600" },
+  { bg: "bg-rose-100", text: "text-rose-600" },
+  { bg: "bg-teal-100", text: "text-teal-600" }
+];
+
+const skillColors = [
+  { bg: "bg-purple-50", text: "text-purple-600" },
+  { bg: "bg-blue-50", text: "text-blue-600" },
+  { bg: "bg-green-50", text: "text-green-600" },
+  { bg: "bg-orange-50", text: "text-orange-600" },
+  { bg: "bg-rose-50", text: "text-rose-600" },
+  { bg: "bg-teal-50", text: "text-teal-600" }
+];
+
+function formatCurrency(num) {
+  return num.toLocaleString("sv-SE") + " kr";
+}
+
+function createProgressRing(percentage, color) {
+  const offset = 100 - percentage;
+  return `
+    <svg class="w-20 h-20" viewBox="0 0 36 36">
+      <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#E5E7EB" stroke-width="3" />
+      <circle cx="18" cy="18" r="15.9155" fill="none" stroke="${color}" stroke-width="3"
+        stroke-dasharray="100" stroke-dashoffset="${offset}" stroke-linecap="round"
+        style="transform: rotate(-90deg); transform-origin: center;" />
+      <text x="18" y="20.5" text-anchor="middle" font-size="7" font-weight="bold" fill="#1F2937">${percentage}%</text>
+    </svg>
+  `;
+}
+
+function renderSidebar() {
+  const list = document.getElementById("consultant-list");
+  list.innerHTML = consultants.map((c, i) => {
+    const color = avatarColors[i % avatarColors.length];
+    return `
+      <button data-id="${c.id}" class="nav-consultant flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-500 rounded-xl hover:bg-gray-50" onclick="navigateTo('consultant', ${c.id})">
+        <div class="flex items-center justify-center w-8 h-8 text-xs font-bold ${color.text} ${color.bg} rounded-full">${c.initials}</div>
+        ${c.name}
+      </button>
+    `;
+  }).join("");
+}
+
+function updateSidebarActive() {
+  const summaryBtn = document.getElementById("nav-summary");
+  const consultantBtns = document.querySelectorAll(".nav-consultant");
+
+  if (currentView.type === "summary") {
+    summaryBtn.className = "flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-orange-600 bg-orange-50 rounded-xl";
+  } else {
+    summaryBtn.className = "flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-500 rounded-xl hover:bg-gray-50";
+  }
+
+  consultantBtns.forEach(btn => {
+    const id = parseInt(btn.dataset.id);
+    if (currentView.type === "consultant" && currentView.id === id) {
+      btn.className = "nav-consultant flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-orange-600 bg-orange-50 rounded-xl";
+    } else {
+      btn.className = "nav-consultant flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-500 rounded-xl hover:bg-gray-50";
+    }
+  });
+}
+
+function navigateTo(type, id) {
+  currentView = id ? { type, id } : { type };
+  renderView();
+  updateSidebarActive();
+
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
+  if (!sidebar.classList.contains("-translate-x-full") && window.innerWidth < 1024) {
+    sidebar.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+  }
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
+  sidebar.classList.toggle("-translate-x-full");
+  overlay.classList.toggle("hidden");
+}
+
+function renderView() {
+  const container = document.getElementById("main-content");
+  if (currentView.type === "summary") {
+    container.innerHTML = renderSummary();
+  } else {
+    container.innerHTML = renderConsultant(currentView.id);
+  }
+}
+
+function renderSummary() {
+  const totalRevenue = consultants.reduce((sum, c) => sum + c.currentAssignment.totalRevenue, 0);
+  const avgMargin = Math.round(consultants.reduce((sum, c) => sum + c.currentAssignment.margin, 0) / consultants.length);
+  const activeAssignments = consultants.length;
+  const totalHours = consultants.reduce((sum, c) => sum + c.currentAssignment.hoursPerMonth, 0);
+  const totalAccMargin = consultants.reduce((sum, c) => sum + c.currentAssignment.accumulatedMargin, 0);
+
+  const metricsHTML = `
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-medium text-gray-500">Total Revenue</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-green-50 rounded-xl">
+            <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+            </svg>
+          </div>
+        </div>
+        <span class="text-2xl font-bold text-gray-900">${formatCurrency(totalRevenue)}</span>
+        <span class="mt-1 text-xs text-green-500">Active period</span>
+      </div>
+
+      <div class="flex flex-col items-center p-6 bg-white rounded-2xl shadow-sm">
+        <span class="mb-3 text-sm font-medium text-gray-500">Avg Margin</span>
+        ${createProgressRing(avgMargin, "#A78BFA")}
+      </div>
+
+      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-medium text-gray-500">Active Assignments</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-xl">
+            <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+        </div>
+        <span class="text-2xl font-bold text-gray-900">${activeAssignments}</span>
+        <span class="mt-1 text-xs text-blue-500">${activeAssignments} consultants placed</span>
+      </div>
+
+      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-medium text-gray-500">Hours This Month</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-orange-50 rounded-xl">
+            <svg class="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        </div>
+        <span class="text-2xl font-bold text-gray-900">${totalHours.toLocaleString("sv-SE")} h</span>
+        <span class="mt-1 text-xs text-orange-500">Combined monthly</span>
+      </div>
+    </div>
+  `;
+
+  const cardsHTML = consultants.map((c, i) => {
+    const color = avatarColors[i % avatarColors.length];
+    const skillsHTML = c.currentAssignment.skills.map((s, si) => {
+      const sc = skillColors[si % skillColors.length];
+      return `<span class="px-2 py-1 text-xs ${sc.text} ${sc.bg} rounded-full">${s}</span>`;
+    }).join("");
+
+    return `
+      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm cursor-pointer hover:shadow-md transition-shadow" onclick="navigateTo('consultant', ${c.id})">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="flex items-center justify-center w-10 h-10 text-sm font-bold ${color.text} ${color.bg} rounded-full">${c.initials}</div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-900">${c.name}</h3>
+              <p class="text-xs text-gray-400">${c.currentAssignment.customer}</p>
+            </div>
+          </div>
+          <span class="px-2 py-1 text-xs font-medium text-green-700 bg-green-50 rounded-full">Active</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <p class="text-xs text-gray-400">Price</p>
+            <p class="text-sm font-semibold text-gray-900">${c.currentAssignment.price} kr/h</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400">Margin</p>
+            <p class="text-sm font-semibold text-green-600">${c.currentAssignment.margin}%</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400">Hours / Month</p>
+            <p class="text-sm font-semibold text-gray-900">${c.currentAssignment.hoursPerMonth} h</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400">Duration</p>
+            <p class="text-sm font-semibold text-gray-900">${c.currentAssignment.duration.split(" – ")[0]}</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-4">
+          ${skillsHTML}
+        </div>
+
+        <div class="mt-auto">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs text-gray-400">Margin</span>
+            <span class="text-xs font-medium text-gray-600">${c.currentAssignment.margin}%</span>
+          </div>
+          <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div class="h-full bg-green-400 rounded-full" style="width: ${c.currentAssignment.margin}%"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  return `
+    <h1 class="mb-6 text-2xl font-bold text-gray-900">Dashboard Overview</h1>
+    ${metricsHTML}
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-lg font-semibold text-gray-900">Consultants & Assignments</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      ${cardsHTML}
+    </div>
+  `;
+}
+
+function renderConsultant(id) {
+  const c = consultants.find(x => x.id === id);
+  if (!c) return "<p>Consultant not found.</p>";
+
+  const a = c.currentAssignment;
+  const colorIdx = consultants.indexOf(c);
+  const color = avatarColors[colorIdx % avatarColors.length];
+
+  const metricsHTML = `
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-medium text-gray-500">Total Revenue</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-green-50 rounded-xl">
+            <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+            </svg>
+          </div>
+        </div>
+        <span class="text-2xl font-bold text-gray-900">${formatCurrency(a.totalRevenue)}</span>
+        <span class="mt-1 text-xs text-green-500">Current assignment</span>
+      </div>
+
+      <div class="flex flex-col items-center p-6 bg-white rounded-2xl shadow-sm">
+        <span class="mb-3 text-sm font-medium text-gray-500">Accumulated Margin</span>
+        ${createProgressRing(a.margin, "#A78BFA")}
+        <span class="mt-2 text-sm font-semibold text-gray-900">${formatCurrency(a.accumulatedMargin)}</span>
+      </div>
+
+      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-medium text-gray-500">Hours / Month</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-orange-50 rounded-xl">
+            <svg class="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        </div>
+        <span class="text-2xl font-bold text-gray-900">${a.hoursPerMonth} h</span>
+        <span class="mt-1 text-xs text-orange-500">Monthly average</span>
+      </div>
+
+      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-medium text-gray-500">Previous Assignments</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-xl">
+            <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+          </div>
+        </div>
+        <span class="text-2xl font-bold text-gray-900">${c.previousAssignments.length}</span>
+        <span class="mt-1 text-xs text-blue-500">Completed</span>
+      </div>
+    </div>
+  `;
+
+  const skillsHTML = a.skills.map((s, si) => {
+    const sc = skillColors[si % skillColors.length];
+    return `<span class="px-3 py-1.5 text-sm ${sc.text} ${sc.bg} rounded-full">${s}</span>`;
+  }).join("");
+
+  const currentHTML = `
+    <div class="mb-10">
+      <h2 class="mb-4 text-lg font-semibold text-gray-900">Current Assignment</h2>
+      <div class="p-6 bg-white rounded-2xl shadow-sm">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-4">
+            <div class="flex items-center justify-center w-12 h-12 text-lg font-bold ${color.text} ${color.bg} rounded-full">${c.initials}</div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">${a.customer}</h3>
+              <p class="text-sm text-gray-400">${a.duration}</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 text-sm font-medium text-green-700 bg-green-50 rounded-full">Active</span>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+          <div>
+            <p class="text-xs text-gray-400">Price</p>
+            <p class="text-lg font-semibold text-gray-900">${a.price} kr/h</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400">Margin</p>
+            <p class="text-lg font-semibold text-green-600">${a.margin}%</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400">Total Revenue</p>
+            <p class="text-lg font-semibold text-gray-900">${formatCurrency(a.totalRevenue)}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400">Hours / Month</p>
+            <p class="text-lg font-semibold text-gray-900">${a.hoursPerMonth} h</p>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <p class="mb-2 text-xs text-gray-400">Margin Progress</p>
+          <div class="flex items-center gap-4">
+            <div class="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-purple-400 to-purple-500 rounded-full" style="width: ${a.margin}%"></div>
+            </div>
+            <span class="text-sm font-semibold text-gray-700">${a.margin}%</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="mb-3 text-xs text-gray-400">Skills & Competence</p>
+          <div class="flex flex-wrap gap-2">
+            ${skillsHTML}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const prevHTML = c.previousAssignments.length > 0 ? `
+    <div>
+      <h2 class="mb-4 text-lg font-semibold text-gray-900">Previous Assignments</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        ${c.previousAssignments.map(pa => `
+          <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-semibold text-gray-900">${pa.customer}</h3>
+              <span class="px-2 py-1 text-xs font-medium text-gray-500 bg-gray-100 rounded-full">Completed</span>
+            </div>
+            <p class="mb-4 text-xs text-gray-400">${pa.duration}</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-xs text-gray-400">Price</p>
+                <p class="text-sm font-semibold text-gray-900">${pa.price} kr/h</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-400">Margin</p>
+                <p class="text-sm font-semibold text-gray-600">${pa.margin}%</p>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-full bg-gray-300 rounded-full" style="width: ${pa.margin}%"></div>
+              </div>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  ` : "";
+
+  return `
+    <button class="flex items-center gap-2 mb-6 text-sm font-medium text-gray-500 hover:text-orange-500" onclick="navigateTo('summary')">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+      Back to Summary
+    </button>
+
+    <div class="flex items-center gap-4 mb-8">
+      <div class="flex items-center justify-center w-14 h-14 text-xl font-bold ${color.text} ${color.bg} rounded-full">${c.initials}</div>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">${c.name}</h1>
+        <p class="text-sm text-gray-400">Currently at ${a.customer}</p>
+      </div>
+    </div>
+
+    ${metricsHTML}
+    ${currentHTML}
+    ${prevHTML}
+  `;
+}
+
+document.getElementById("sidebar-overlay").addEventListener("click", () => {
+  document.getElementById("sidebar").classList.add("-translate-x-full");
+  document.getElementById("sidebar-overlay").classList.add("hidden");
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+  renderSidebar();
+  renderView();
+  updateSidebarActive();
+});
+</script>
+
+</body>
+</html>

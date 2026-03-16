@@ -78,3 +78,30 @@ Implement Supabase connection with secure auth and full CRUD:
 - Cards now show start/end dates instead of just start month
 - Consultant detail page has Delete button
 - Previous assignments show formatted date ranges
+
+## #4 — Swedish Localization, Manual Entry & Empty State Support
+
+Translate all UI texts to Swedish and enable full manual data entry:
+
+**Swedish localization:**
+- All buttons, labels, headings, placeholders, error messages, and status badges translated to Swedish
+- HTML lang attribute changed from "en" to "sv"
+- Login screen: "Logga in", "E-post", "Lösenord"
+- Navigation: "Översikt", "Konsulter", "Logga ut"
+- Metrics: "Total omsättning", "Snittmarginal", "Aktiva uppdrag", "Timmar denna månad"
+- Status badges: "Aktiv", "Avslutas snart", "Avslutas mycket snart", "Avslutat"
+- Forms: "Personuppgifter", "Nuvarande uppdrag", "Kompetenser", etc.
+
+**Empty state handling:**
+- Dashboard shows friendly empty state with icon when no consultants exist
+- Sidebar shows "Inga konsulter ännu" when list is empty
+- Consultant detail shows "Inget aktivt uppdrag" when no current assignment
+- Previous assignments section shows "Inga tidigare uppdrag" when empty
+- All views gracefully handle zero data without errors
+
+**Manual previous assignment entry:**
+- Added "Lägg till tidigare uppdrag" form on consultant detail page
+- Fields: Kund, Pris (kr/h), Startdatum, Slutdatum, Marginal (%)
+- Inserts directly to `previous_assignments` table linked to consultant
+- Page refreshes after adding to show new assignment
+- Delete button on each previous assignment card for removal

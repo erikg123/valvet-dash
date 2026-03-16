@@ -39,3 +39,42 @@ Key decisions:
 - Hardcoded mock data (6 consultants with Swedish company names)
 - SVG circular progress rings for margin percentages
 - Soft pastel color palette, mobile-first responsive layout
+
+## #3 — Supabase Integration, Auth, CRUD & Contract Status Colors
+
+Implement Supabase connection with secure auth and full CRUD:
+
+**Supabase setup:**
+- config.js with SUPABASE_URL and SUPABASE_ANON_KEY placeholders (committed for GitHub Pages)
+- Supabase JS v2 from CDN
+- Row Level Security (RLS) policies — only authenticated users can read/write
+- schema.sql with `consultants` and `previous_assignments` tables + seed data + RLS policies
+
+**Authentication:**
+- Email + password login via Supabase Auth
+- Login screen shown when not authenticated
+- Logout button in sidebar signs out and returns to login
+- Session persistence (auto-login if session exists)
+
+**Data model changes:**
+- Replaced hardcoded array with Supabase fetch (`consultants` + nested `previous_assignments`)
+- Dates stored as proper `date` fields (`start_date`, `end_date`) instead of text strings
+- Skills stored as `text[]` array
+
+**Contract end date color coding:**
+- 2+ months remaining = green badge + green progress bar
+- 1–2 months remaining = yellow badge + yellow bar ("Ending soon")
+- Less than 1 month = red badge + red bar ("Ending very soon")
+- Past end date = gray badge ("Ended")
+
+**CRUD:**
+- Add Consultant form (accessible from top bar button) with all fields
+- Delete consultant with confirmation modal (cascade deletes assignments)
+- Dashboard and sidebar refresh after add/delete
+
+**UI changes:**
+- Replaced "Filters" button with "Add Consultant" button
+- Removed non-functional Settings button
+- Cards now show start/end dates instead of just start month
+- Consultant detail page has Delete button
+- Previous assignments show formatted date ranges

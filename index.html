@@ -8,21 +8,23 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
 </head>
-<body class="bg-stone-50 text-gray-900">
+<body class="bg-gray-950 text-gray-100">
 
   <div id="login-screen" class="hidden flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-sm p-8 bg-white rounded-2xl shadow-sm">
-      <h1 class="mb-2 text-2xl font-bold text-orange-500 text-center">Valvet</h1>
-      <p class="mb-8 text-sm text-gray-400 text-center">Logga in på din dashboard</p>
-      <div id="login-error" class="hidden mb-4 p-3 text-sm text-red-700 bg-red-50 rounded-xl"></div>
+    <div class="w-full max-w-sm p-8 bg-gray-900 rounded-2xl shadow-lg border border-gray-800">
+      <div class="flex justify-center mb-2">
+        <img src="valvet-logo.svg" alt="Valvet" class="h-8" />
+      </div>
+      <p class="mb-8 text-sm text-gray-500 text-center">Logga in på din dashboard</p>
+      <div id="login-error" class="hidden mb-4 p-3 text-sm text-red-400 bg-red-900/30 rounded-xl"></div>
       <form id="login-form" class="flex flex-col gap-4">
         <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">E-post</label>
-          <input id="login-email" type="email" required class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="du@example.com" />
+          <label class="block mb-1 text-sm font-medium text-gray-400">E-post</label>
+          <input id="login-email" type="email" required class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-800 rounded-xl border border-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="du@example.com" />
         </div>
         <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">Lösenord</label>
-          <input id="login-password" type="password" required class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="Ditt lösenord" />
+          <label class="block mb-1 text-sm font-medium text-gray-400">Lösenord</label>
+          <input id="login-password" type="password" required class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-800 rounded-xl border border-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="Ditt lösenord" />
         </div>
         <button type="submit" class="w-full px-4 py-3 text-sm font-semibold text-white bg-orange-500 rounded-xl hover:bg-orange-600 transition-colors">Logga in</button>
       </form>
@@ -32,15 +34,15 @@
   <div id="app" class="hidden">
     <div class="flex min-h-screen">
 
-      <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black/30 z-40 lg:hidden"></div>
+      <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black/50 z-40 lg:hidden"></div>
 
-      <aside id="sidebar" class="fixed flex flex-col w-72 h-screen p-6 bg-white border-r border-gray-100 z-50 -translate-x-full transition-transform lg:translate-x-0">
+      <aside id="sidebar" class="fixed flex flex-col w-72 h-screen p-6 bg-gray-900 border-r border-gray-800 z-50 -translate-x-full transition-transform lg:translate-x-0">
         <div class="mb-8">
-          <h1 class="text-2xl font-bold text-orange-500">Valvet</h1>
+          <img src="valvet-logo.svg" alt="Valvet" class="h-8" />
         </div>
 
         <nav class="flex flex-col flex-1 gap-1">
-          <button id="nav-summary" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-orange-600 bg-orange-50 rounded-xl" onclick="navigateTo('summary')">
+          <button id="nav-summary" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-orange-400 bg-orange-500/10 rounded-xl" onclick="navigateTo('summary')">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1" />
             </svg>
@@ -48,13 +50,13 @@
           </button>
 
           <div class="mt-6 mb-2 px-4">
-            <span class="text-xs font-semibold tracking-wider text-gray-400 uppercase">Konsulter</span>
+            <span class="text-xs font-semibold tracking-wider text-gray-600 uppercase">Konsulter</span>
           </div>
 
           <div id="consultant-list" class="flex flex-col gap-1 overflow-y-auto"></div>
 
-          <div class="mt-auto flex flex-col gap-1 pt-4 border-t border-gray-100">
-            <button class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-500 rounded-xl hover:bg-gray-50" onclick="handleLogout()">
+          <div class="mt-auto flex flex-col gap-1 pt-4 border-t border-gray-800">
+            <button class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-400 rounded-xl hover:bg-gray-800" onclick="handleLogout()">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
@@ -66,18 +68,18 @@
 
       <main class="flex-1 px-4 py-6 sm:px-6 md:px-8 lg:ml-72">
         <div class="flex items-center gap-4 mb-8">
-          <button id="menu-btn" class="flex items-center justify-center w-10 h-10 text-gray-500 bg-white rounded-xl shadow-sm border border-gray-200 lg:hidden" onclick="toggleSidebar()">
+          <button id="menu-btn" class="flex items-center justify-center w-10 h-10 text-gray-400 bg-gray-800 rounded-xl border border-gray-700 lg:hidden" onclick="toggleSidebar()">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
           <div class="relative flex-1">
-            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <input class="block w-full pl-10 pr-4 py-3 text-sm text-gray-700 bg-white rounded-xl shadow-sm border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" type="text" placeholder="Sök kund, konsult, uppdrag..." />
+            <input class="block w-full pl-10 pr-4 py-3 text-sm text-gray-200 bg-gray-800 rounded-xl border border-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500/50" type="text" placeholder="Sök kund, konsult, uppdrag..." />
           </div>
-          <button class="flex items-center gap-2 px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-xl shadow-sm hover:bg-orange-600 transition-colors" onclick="navigateTo('add')">
+          <button class="flex items-center gap-2 px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-xl hover:bg-orange-600 transition-colors" onclick="navigateTo('add')">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
             </svg>
@@ -90,40 +92,40 @@
     </div>
   </div>
 
-  <div id="delete-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40">
-    <div class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-lg">
-      <h3 class="mb-2 text-lg font-semibold text-gray-900">Radera konsult</h3>
-      <p class="mb-6 text-sm text-gray-500">Är du säker? Detta raderar konsulten och alla tillhörande uppdrag permanent.</p>
+  <div id="delete-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
+    <div class="w-full max-w-sm p-6 bg-gray-800 rounded-2xl shadow-lg border border-gray-700">
+      <h3 class="mb-2 text-lg font-semibold text-gray-100">Radera konsult</h3>
+      <p class="mb-6 text-sm text-gray-400">Är du säker? Detta raderar konsulten och alla tillhörande uppdrag permanent.</p>
       <div class="flex gap-3 justify-end">
-        <button class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200" onclick="closeDeleteModal()">Avbryt</button>
+        <button class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-700 rounded-xl hover:bg-gray-600" onclick="closeDeleteModal()">Avbryt</button>
         <button id="confirm-delete-btn" class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-xl hover:bg-red-600">Radera</button>
       </div>
     </div>
   </div>
 
 <script>
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
 let consultants = [];
 let currentView = { type: "summary" };
 let deleteTargetId = null;
 
 const avatarColors = [
-  { bg: "bg-orange-100", text: "text-orange-600" },
-  { bg: "bg-purple-100", text: "text-purple-600" },
-  { bg: "bg-blue-100", text: "text-blue-600" },
-  { bg: "bg-green-100", text: "text-green-600" },
-  { bg: "bg-rose-100", text: "text-rose-600" },
-  { bg: "bg-teal-100", text: "text-teal-600" }
+  { bg: "bg-orange-900/40", text: "text-orange-400" },
+  { bg: "bg-purple-900/40", text: "text-purple-400" },
+  { bg: "bg-blue-900/40", text: "text-blue-400" },
+  { bg: "bg-green-900/40", text: "text-green-400" },
+  { bg: "bg-rose-900/40", text: "text-rose-400" },
+  { bg: "bg-teal-900/40", text: "text-teal-400" }
 ];
 
 const skillColors = [
-  { bg: "bg-purple-50", text: "text-purple-600" },
-  { bg: "bg-blue-50", text: "text-blue-600" },
-  { bg: "bg-green-50", text: "text-green-600" },
-  { bg: "bg-orange-50", text: "text-orange-600" },
-  { bg: "bg-rose-50", text: "text-rose-600" },
-  { bg: "bg-teal-50", text: "text-teal-600" }
+  { bg: "bg-purple-900/30", text: "text-purple-400" },
+  { bg: "bg-blue-900/30", text: "text-blue-400" },
+  { bg: "bg-green-900/30", text: "text-green-400" },
+  { bg: "bg-orange-900/30", text: "text-orange-400" },
+  { bg: "bg-rose-900/30", text: "text-rose-400" },
+  { bg: "bg-teal-900/30", text: "text-teal-400" }
 ];
 
 function formatCurrency(num) {
@@ -137,34 +139,34 @@ function formatDate(dateStr) {
 }
 
 function getEndDateColor(endDateStr) {
-  if (!endDateStr) return { badge: "text-gray-500 bg-gray-100", bar: "bg-gray-300", label: "Inget slutdatum" };
+  if (!endDateStr) return { badge: "text-gray-400 bg-gray-700", bar: "bg-gray-600", label: "Inget slutdatum" };
   const now = new Date();
   const end = new Date(endDateStr);
   const diffMs = end - now;
   const diffDays = diffMs / (1000 * 60 * 60 * 24);
   const diffMonths = diffDays / 30.44;
 
-  if (diffMonths >= 2) return { badge: "text-green-700 bg-green-50", bar: "bg-green-400", label: "Aktiv" };
-  if (diffMonths >= 1) return { badge: "text-yellow-700 bg-yellow-50", bar: "bg-yellow-400", label: "Avslutas snart" };
-  if (diffDays > 0) return { badge: "text-red-700 bg-red-50", bar: "bg-red-400", label: "Avslutas mycket snart" };
-  return { badge: "text-gray-500 bg-gray-100", bar: "bg-gray-400", label: "Avslutat" };
+  if (diffMonths >= 2) return { badge: "text-green-400 bg-green-900/30", bar: "bg-green-500", label: "Aktiv" };
+  if (diffMonths >= 1) return { badge: "text-yellow-400 bg-yellow-900/30", bar: "bg-yellow-500", label: "Avslutas snart" };
+  if (diffDays > 0) return { badge: "text-red-400 bg-red-900/30", bar: "bg-red-500", label: "Avslutas mycket snart" };
+  return { badge: "text-gray-400 bg-gray-700", bar: "bg-gray-500", label: "Avslutat" };
 }
 
 function createProgressRing(percentage, color) {
   const offset = 100 - percentage;
   return `
     <svg class="w-20 h-20" viewBox="0 0 36 36">
-      <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#E5E7EB" stroke-width="3" />
+      <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#374151" stroke-width="3" />
       <circle cx="18" cy="18" r="15.9155" fill="none" stroke="${color}" stroke-width="3"
         stroke-dasharray="100" stroke-dashoffset="${offset}" stroke-linecap="round"
         style="transform: rotate(-90deg); transform-origin: center;" />
-      <text x="18" y="20.5" text-anchor="middle" font-size="7" font-weight="bold" fill="#1F2937">${percentage}%</text>
+      <text x="18" y="20.5" text-anchor="middle" font-size="7" font-weight="bold" fill="#F3F4F6">${percentage}%</text>
     </svg>
   `;
 }
 
 async function fetchConsultants() {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from("consultants")
     .select("*, previous_assignments(*)")
     .order("name");
@@ -178,7 +180,7 @@ async function fetchConsultants() {
 }
 
 async function deleteConsultant(id) {
-  const { error } = await supabase.from("consultants").delete().eq("id", id);
+  const { error } = await db.from("consultants").delete().eq("id", id);
   if (error) {
     alert("Fel vid radering av konsult: " + error.message);
     return;
@@ -189,7 +191,7 @@ async function deleteConsultant(id) {
 }
 
 async function deleteAssignment(assignmentId, consultantId) {
-  const { error } = await supabase.from("previous_assignments").delete().eq("id", assignmentId);
+  const { error } = await db.from("previous_assignments").delete().eq("id", assignmentId);
   if (error) {
     alert("Fel vid radering av uppdrag: " + error.message);
     return;
@@ -212,13 +214,13 @@ function closeDeleteModal() {
 function renderSidebarList() {
   const list = document.getElementById("consultant-list");
   if (consultants.length === 0) {
-    list.innerHTML = `<p class="px-4 py-3 text-sm text-gray-400">Inga konsulter ännu</p>`;
+    list.innerHTML = `<p class="px-4 py-3 text-sm text-gray-500">Inga konsulter ännu</p>`;
     return;
   }
   list.innerHTML = consultants.map((c, i) => {
     const color = avatarColors[i % avatarColors.length];
     return `
-      <button data-id="${c.id}" class="nav-consultant flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-500 rounded-xl hover:bg-gray-50" onclick="navigateTo('consultant', '${c.id}')">
+      <button data-id="${c.id}" class="nav-consultant flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-400 rounded-xl hover:bg-gray-800" onclick="navigateTo('consultant', '${c.id}')">
         <div class="flex items-center justify-center w-8 h-8 text-xs font-bold ${color.text} ${color.bg} rounded-full">${c.initials}</div>
         ${c.name}
       </button>
@@ -231,17 +233,17 @@ function updateSidebarActive() {
   const consultantBtns = document.querySelectorAll(".nav-consultant");
 
   if (currentView.type === "summary" || currentView.type === "add") {
-    summaryBtn.className = "flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-orange-600 bg-orange-50 rounded-xl";
+    summaryBtn.className = "flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-orange-400 bg-orange-500/10 rounded-xl";
   } else {
-    summaryBtn.className = "flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-500 rounded-xl hover:bg-gray-50";
+    summaryBtn.className = "flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-400 rounded-xl hover:bg-gray-800";
   }
 
   consultantBtns.forEach(btn => {
     const id = btn.dataset.id;
     if (currentView.type === "consultant" && currentView.id === id) {
-      btn.className = "nav-consultant flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-orange-600 bg-orange-50 rounded-xl";
+      btn.className = "nav-consultant flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-orange-400 bg-orange-500/10 rounded-xl";
     } else {
-      btn.className = "nav-consultant flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-500 rounded-xl hover:bg-gray-50";
+      btn.className = "nav-consultant flex items-center gap-3 px-4 py-3 text-sm font-medium text-left text-gray-400 rounded-xl hover:bg-gray-800";
     }
   });
 }
@@ -282,13 +284,13 @@ function renderView() {
 function renderSummary() {
   if (consultants.length === 0) {
     return `
-      <h1 class="mb-6 text-2xl font-bold text-gray-900">Översikt</h1>
-      <div class="flex flex-col items-center justify-center p-12 bg-white rounded-2xl shadow-sm">
-        <svg class="w-16 h-16 mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+      <h1 class="mb-6 text-2xl font-bold text-gray-100">Översikt</h1>
+      <div class="flex flex-col items-center justify-center p-12 bg-gray-800 rounded-2xl border border-gray-700">
+        <svg class="w-16 h-16 mb-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
-        <p class="mb-2 text-lg font-semibold text-gray-700">Inga konsulter ännu</p>
-        <p class="mb-6 text-sm text-gray-400">Kom igång genom att lägga till din första konsult.</p>
+        <p class="mb-2 text-lg font-semibold text-gray-300">Inga konsulter ännu</p>
+        <p class="mb-6 text-sm text-gray-500">Kom igång genom att lägga till din första konsult.</p>
         <button class="px-6 py-3 text-sm font-semibold text-white bg-orange-500 rounded-xl hover:bg-orange-600" onclick="navigateTo('add')">Lägg till din första konsult</button>
       </div>
     `;
@@ -301,48 +303,48 @@ function renderSummary() {
 
   const metricsHTML = `
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+      <div class="flex flex-col p-6 bg-gray-800 rounded-2xl border border-gray-700">
         <div class="flex items-center justify-between mb-4">
-          <span class="text-sm font-medium text-gray-500">Total omsättning</span>
-          <div class="flex items-center justify-center w-10 h-10 bg-green-50 rounded-xl">
-            <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <span class="text-sm font-medium text-gray-400">Total omsättning</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-green-900/30 rounded-xl">
+            <svg class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
             </svg>
           </div>
         </div>
-        <span class="text-2xl font-bold text-gray-900">${formatCurrency(totalRevenue)}</span>
-        <span class="mt-1 text-xs text-green-500">Aktiv period</span>
+        <span class="text-2xl font-bold text-gray-100">${formatCurrency(totalRevenue)}</span>
+        <span class="mt-1 text-xs text-green-400">Aktiv period</span>
       </div>
 
-      <div class="flex flex-col items-center p-6 bg-white rounded-2xl shadow-sm">
-        <span class="mb-3 text-sm font-medium text-gray-500">Snittmarginal</span>
+      <div class="flex flex-col items-center p-6 bg-gray-800 rounded-2xl border border-gray-700">
+        <span class="mb-3 text-sm font-medium text-gray-400">Snittmarginal</span>
         ${createProgressRing(avgMargin, "#A78BFA")}
       </div>
 
-      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+      <div class="flex flex-col p-6 bg-gray-800 rounded-2xl border border-gray-700">
         <div class="flex items-center justify-between mb-4">
-          <span class="text-sm font-medium text-gray-500">Aktiva uppdrag</span>
-          <div class="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-xl">
-            <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <span class="text-sm font-medium text-gray-400">Aktiva uppdrag</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-blue-900/30 rounded-xl">
+            <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           </div>
         </div>
-        <span class="text-2xl font-bold text-gray-900">${activeAssignments}</span>
-        <span class="mt-1 text-xs text-blue-500">${activeAssignments} konsulter placerade</span>
+        <span class="text-2xl font-bold text-gray-100">${activeAssignments}</span>
+        <span class="mt-1 text-xs text-blue-400">${activeAssignments} konsulter placerade</span>
       </div>
 
-      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+      <div class="flex flex-col p-6 bg-gray-800 rounded-2xl border border-gray-700">
         <div class="flex items-center justify-between mb-4">
-          <span class="text-sm font-medium text-gray-500">Timmar denna månad</span>
-          <div class="flex items-center justify-center w-10 h-10 bg-orange-50 rounded-xl">
-            <svg class="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <span class="text-sm font-medium text-gray-400">Timmar denna månad</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-orange-900/30 rounded-xl">
+            <svg class="w-5 h-5 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
         </div>
-        <span class="text-2xl font-bold text-gray-900">${totalHours.toLocaleString("sv-SE")} h</span>
-        <span class="mt-1 text-xs text-orange-500">Sammanlagt per månad</span>
+        <span class="text-2xl font-bold text-gray-100">${totalHours.toLocaleString("sv-SE")} h</span>
+        <span class="mt-1 text-xs text-orange-400">Sammanlagt per månad</span>
       </div>
     </div>
   `;
@@ -356,13 +358,13 @@ function renderSummary() {
     }).join("");
 
     return `
-      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm cursor-pointer hover:shadow-md transition-shadow" onclick="navigateTo('consultant', '${c.id}')">
+      <div class="flex flex-col p-6 bg-gray-800 rounded-2xl border border-gray-700 cursor-pointer hover:border-gray-600 transition-colors" onclick="navigateTo('consultant', '${c.id}')">
         <div class="flex items-center justify-between mb-4">
           <div class="flex items-center gap-3">
             <div class="flex items-center justify-center w-10 h-10 text-sm font-bold ${color.text} ${color.bg} rounded-full">${c.initials}</div>
             <div>
-              <h3 class="text-sm font-semibold text-gray-900">${c.name}</h3>
-              <p class="text-xs text-gray-400">${c.current_customer || "Ej tilldelad"}</p>
+              <h3 class="text-sm font-semibold text-gray-100">${c.name}</h3>
+              <p class="text-xs text-gray-500">${c.current_customer || "Ej tilldelad"}</p>
             </div>
           </div>
           <span class="px-2 py-1 text-xs font-medium ${endColor.badge} rounded-full">${endColor.label}</span>
@@ -370,20 +372,20 @@ function renderSummary() {
 
         <div class="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <p class="text-xs text-gray-400">Pris</p>
-            <p class="text-sm font-semibold text-gray-900">${c.price} kr/h</p>
+            <p class="text-xs text-gray-500">Pris</p>
+            <p class="text-sm font-semibold text-gray-100">${c.price} kr/h</p>
           </div>
           <div>
-            <p class="text-xs text-gray-400">Marginal</p>
-            <p class="text-sm font-semibold text-green-600">${c.margin}%</p>
+            <p class="text-xs text-gray-500">Marginal</p>
+            <p class="text-sm font-semibold text-green-400">${c.margin}%</p>
           </div>
           <div>
-            <p class="text-xs text-gray-400">Start</p>
-            <p class="text-sm font-semibold text-gray-900">${formatDate(c.start_date)}</p>
+            <p class="text-xs text-gray-500">Start</p>
+            <p class="text-sm font-semibold text-gray-100">${formatDate(c.start_date)}</p>
           </div>
           <div>
-            <p class="text-xs text-gray-400">Slut</p>
-            <p class="text-sm font-semibold text-gray-900">${formatDate(c.end_date)}</p>
+            <p class="text-xs text-gray-500">Slut</p>
+            <p class="text-sm font-semibold text-gray-100">${formatDate(c.end_date)}</p>
           </div>
         </div>
 
@@ -393,10 +395,10 @@ function renderSummary() {
 
         <div class="mt-auto">
           <div class="flex items-center justify-between mb-1">
-            <span class="text-xs text-gray-400">Marginal</span>
-            <span class="text-xs font-medium text-gray-600">${c.margin}%</span>
+            <span class="text-xs text-gray-500">Marginal</span>
+            <span class="text-xs font-medium text-gray-400">${c.margin}%</span>
           </div>
-          <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div class="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
             <div class="h-full ${endColor.bar} rounded-full" style="width: ${c.margin}%"></div>
           </div>
         </div>
@@ -405,10 +407,10 @@ function renderSummary() {
   }).join("");
 
   return `
-    <h1 class="mb-6 text-2xl font-bold text-gray-900">Översikt</h1>
+    <h1 class="mb-6 text-2xl font-bold text-gray-100">Översikt</h1>
     ${metricsHTML}
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-lg font-semibold text-gray-900">Konsulter & Uppdrag</h2>
+      <h2 class="text-lg font-semibold text-gray-100">Konsulter & Uppdrag</h2>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
       ${cardsHTML}
@@ -418,7 +420,7 @@ function renderSummary() {
 
 function renderConsultant(id) {
   const c = consultants.find(x => x.id === id);
-  if (!c) return "<p>Konsulten hittades inte.</p>";
+  if (!c) return "<p class='text-gray-400'>Konsulten hittades inte.</p>";
 
   const colorIdx = consultants.indexOf(c);
   const color = avatarColors[colorIdx % avatarColors.length];
@@ -427,49 +429,49 @@ function renderConsultant(id) {
 
   const metricsHTML = `
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+      <div class="flex flex-col p-6 bg-gray-800 rounded-2xl border border-gray-700">
         <div class="flex items-center justify-between mb-4">
-          <span class="text-sm font-medium text-gray-500">Total omsättning</span>
-          <div class="flex items-center justify-center w-10 h-10 bg-green-50 rounded-xl">
-            <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <span class="text-sm font-medium text-gray-400">Total omsättning</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-green-900/30 rounded-xl">
+            <svg class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
             </svg>
           </div>
         </div>
-        <span class="text-2xl font-bold text-gray-900">${formatCurrency(c.total_revenue || 0)}</span>
-        <span class="mt-1 text-xs text-green-500">Nuvarande uppdrag</span>
+        <span class="text-2xl font-bold text-gray-100">${formatCurrency(c.total_revenue || 0)}</span>
+        <span class="mt-1 text-xs text-green-400">Nuvarande uppdrag</span>
       </div>
 
-      <div class="flex flex-col items-center p-6 bg-white rounded-2xl shadow-sm">
-        <span class="mb-3 text-sm font-medium text-gray-500">Ackumulerad marginal</span>
+      <div class="flex flex-col items-center p-6 bg-gray-800 rounded-2xl border border-gray-700">
+        <span class="mb-3 text-sm font-medium text-gray-400">Ackumulerad marginal</span>
         ${createProgressRing(c.margin || 0, "#A78BFA")}
-        <span class="mt-2 text-sm font-semibold text-gray-900">${formatCurrency(c.accumulated_margin || 0)}</span>
+        <span class="mt-2 text-sm font-semibold text-gray-100">${formatCurrency(c.accumulated_margin || 0)}</span>
       </div>
 
-      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+      <div class="flex flex-col p-6 bg-gray-800 rounded-2xl border border-gray-700">
         <div class="flex items-center justify-between mb-4">
-          <span class="text-sm font-medium text-gray-500">Timmar / Månad</span>
-          <div class="flex items-center justify-center w-10 h-10 bg-orange-50 rounded-xl">
-            <svg class="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <span class="text-sm font-medium text-gray-400">Timmar / Månad</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-orange-900/30 rounded-xl">
+            <svg class="w-5 h-5 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
         </div>
-        <span class="text-2xl font-bold text-gray-900">${c.hours_per_month || 0} h</span>
-        <span class="mt-1 text-xs text-orange-500">Månadssnitt</span>
+        <span class="text-2xl font-bold text-gray-100">${c.hours_per_month || 0} h</span>
+        <span class="mt-1 text-xs text-orange-400">Månadssnitt</span>
       </div>
 
-      <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+      <div class="flex flex-col p-6 bg-gray-800 rounded-2xl border border-gray-700">
         <div class="flex items-center justify-between mb-4">
-          <span class="text-sm font-medium text-gray-500">Tidigare uppdrag</span>
-          <div class="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-xl">
-            <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <span class="text-sm font-medium text-gray-400">Tidigare uppdrag</span>
+          <div class="flex items-center justify-center w-10 h-10 bg-blue-900/30 rounded-xl">
+            <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           </div>
         </div>
-        <span class="text-2xl font-bold text-gray-900">${prevAssignments.length}</span>
-        <span class="mt-1 text-xs text-blue-500">Avslutade</span>
+        <span class="text-2xl font-bold text-gray-100">${prevAssignments.length}</span>
+        <span class="mt-1 text-xs text-blue-400">Avslutade</span>
       </div>
     </div>
   `;
@@ -483,15 +485,15 @@ function renderConsultant(id) {
 
   const currentHTML = `
     <div class="mb-10">
-      <h2 class="mb-4 text-lg font-semibold text-gray-900">Nuvarande uppdrag</h2>
+      <h2 class="mb-4 text-lg font-semibold text-gray-100">Nuvarande uppdrag</h2>
       ${hasCurrentAssignment ? `
-      <div class="p-6 bg-white rounded-2xl shadow-sm">
+      <div class="p-6 bg-gray-800 rounded-2xl border border-gray-700">
         <div class="flex items-center justify-between mb-6">
           <div class="flex items-center gap-4">
             <div class="flex items-center justify-center w-12 h-12 text-lg font-bold ${color.text} ${color.bg} rounded-full">${c.initials}</div>
             <div>
-              <h3 class="text-lg font-semibold text-gray-900">${c.current_customer}</h3>
-              <p class="text-sm text-gray-400">${formatDate(c.start_date)} – ${formatDate(c.end_date)}</p>
+              <h3 class="text-lg font-semibold text-gray-100">${c.current_customer}</h3>
+              <p class="text-sm text-gray-500">${formatDate(c.start_date)} – ${formatDate(c.end_date)}</p>
             </div>
           </div>
           <span class="px-3 py-1 text-sm font-medium ${endColor.badge} rounded-full">${endColor.label}</span>
@@ -499,46 +501,46 @@ function renderConsultant(id) {
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
           <div>
-            <p class="text-xs text-gray-400">Pris</p>
-            <p class="text-lg font-semibold text-gray-900">${c.price} kr/h</p>
+            <p class="text-xs text-gray-500">Pris</p>
+            <p class="text-lg font-semibold text-gray-100">${c.price} kr/h</p>
           </div>
           <div>
-            <p class="text-xs text-gray-400">Marginal</p>
-            <p class="text-lg font-semibold text-green-600">${c.margin}%</p>
+            <p class="text-xs text-gray-500">Marginal</p>
+            <p class="text-lg font-semibold text-green-400">${c.margin}%</p>
           </div>
           <div>
-            <p class="text-xs text-gray-400">Total omsättning</p>
-            <p class="text-lg font-semibold text-gray-900">${formatCurrency(c.total_revenue || 0)}</p>
+            <p class="text-xs text-gray-500">Total omsättning</p>
+            <p class="text-lg font-semibold text-gray-100">${formatCurrency(c.total_revenue || 0)}</p>
           </div>
           <div>
-            <p class="text-xs text-gray-400">Timmar / Månad</p>
-            <p class="text-lg font-semibold text-gray-900">${c.hours_per_month || 0} h</p>
+            <p class="text-xs text-gray-500">Timmar / Månad</p>
+            <p class="text-lg font-semibold text-gray-100">${c.hours_per_month || 0} h</p>
           </div>
         </div>
 
         <div class="mb-6">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-xs text-gray-400">Kontraktstid</p>
-            <p class="text-xs font-medium text-gray-500">${formatDate(c.end_date)}</p>
+            <p class="text-xs text-gray-500">Kontraktstid</p>
+            <p class="text-xs font-medium text-gray-400">${formatDate(c.end_date)}</p>
           </div>
           <div class="flex items-center gap-4">
-            <div class="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
+            <div class="flex-1 h-3 bg-gray-700 rounded-full overflow-hidden">
               <div class="h-full ${endColor.bar} rounded-full" style="width: ${c.margin}%"></div>
             </div>
-            <span class="text-sm font-semibold text-gray-700">${c.margin}%</span>
+            <span class="text-sm font-semibold text-gray-300">${c.margin}%</span>
           </div>
         </div>
 
         <div>
-          <p class="mb-3 text-xs text-gray-400">Kompetenser</p>
+          <p class="mb-3 text-xs text-gray-500">Kompetenser</p>
           <div class="flex flex-wrap gap-2">
-            ${skillsHTML || '<span class="text-sm text-gray-400">Inga kompetenser tillagda</span>'}
+            ${skillsHTML || '<span class="text-sm text-gray-500">Inga kompetenser tillagda</span>'}
           </div>
         </div>
       </div>
       ` : `
-      <div class="flex flex-col items-center p-8 bg-white rounded-2xl shadow-sm">
-        <p class="text-sm text-gray-400">Inget aktivt uppdrag</p>
+      <div class="flex flex-col items-center p-8 bg-gray-800 rounded-2xl border border-gray-700">
+        <p class="text-sm text-gray-500">Inget aktivt uppdrag</p>
       </div>
       `}
     </div>
@@ -547,71 +549,71 @@ function renderConsultant(id) {
   const prevHTML = `
     <div>
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold text-gray-900">Tidigare uppdrag</h2>
+        <h2 class="text-lg font-semibold text-gray-100">Tidigare uppdrag</h2>
       </div>
       ${prevAssignments.length > 0 ? `
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
         ${prevAssignments.map(pa => `
-          <div class="flex flex-col p-6 bg-white rounded-2xl shadow-sm">
+          <div class="flex flex-col p-6 bg-gray-800 rounded-2xl border border-gray-700">
             <div class="flex items-center justify-between mb-4">
-              <h3 class="text-sm font-semibold text-gray-900">${pa.customer}</h3>
+              <h3 class="text-sm font-semibold text-gray-100">${pa.customer}</h3>
               <div class="flex items-center gap-2">
-                <span class="px-2 py-1 text-xs font-medium text-gray-500 bg-gray-100 rounded-full">Avslutat</span>
-                <button class="flex items-center justify-center w-7 h-7 text-gray-400 rounded-lg hover:text-red-500 hover:bg-red-50 transition-colors" onclick="deleteAssignment('${pa.id}', '${c.id}')">
+                <span class="px-2 py-1 text-xs font-medium text-gray-400 bg-gray-700 rounded-full">Avslutat</span>
+                <button class="flex items-center justify-center w-7 h-7 text-gray-500 rounded-lg hover:text-red-400 hover:bg-red-900/30 transition-colors" onclick="deleteAssignment('${pa.id}', '${c.id}')">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 </button>
               </div>
             </div>
-            <p class="mb-4 text-xs text-gray-400">${formatDate(pa.start_date)} – ${formatDate(pa.end_date)}</p>
+            <p class="mb-4 text-xs text-gray-500">${formatDate(pa.start_date)} – ${formatDate(pa.end_date)}</p>
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <p class="text-xs text-gray-400">Pris</p>
-                <p class="text-sm font-semibold text-gray-900">${pa.price} kr/h</p>
+                <p class="text-xs text-gray-500">Pris</p>
+                <p class="text-sm font-semibold text-gray-100">${pa.price} kr/h</p>
               </div>
               <div>
-                <p class="text-xs text-gray-400">Marginal</p>
-                <p class="text-sm font-semibold text-gray-600">${pa.margin}%</p>
+                <p class="text-xs text-gray-500">Marginal</p>
+                <p class="text-sm font-semibold text-gray-300">${pa.margin}%</p>
               </div>
             </div>
             <div class="mt-4">
-              <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div class="h-full bg-gray-300 rounded-full" style="width: ${pa.margin}%"></div>
+              <div class="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                <div class="h-full bg-gray-500 rounded-full" style="width: ${pa.margin}%"></div>
               </div>
             </div>
           </div>
         `).join("")}
       </div>
       ` : `
-      <div class="flex flex-col items-center p-6 mb-6 bg-white rounded-2xl shadow-sm">
-        <p class="text-sm text-gray-400">Inga tidigare uppdrag</p>
+      <div class="flex flex-col items-center p-6 mb-6 bg-gray-800 rounded-2xl border border-gray-700">
+        <p class="text-sm text-gray-500">Inga tidigare uppdrag</p>
       </div>
       `}
 
-      <div class="p-6 bg-white rounded-2xl shadow-sm">
-        <h3 class="mb-4 text-base font-semibold text-gray-900">Lägg till tidigare uppdrag</h3>
-        <div id="assignment-form-error" class="hidden mb-4 p-3 text-sm text-red-700 bg-red-50 rounded-xl"></div>
+      <div class="p-6 bg-gray-800 rounded-2xl border border-gray-700">
+        <h3 class="mb-4 text-base font-semibold text-gray-100">Lägg till tidigare uppdrag</h3>
+        <div id="assignment-form-error" class="hidden mb-4 p-3 text-sm text-red-400 bg-red-900/30 rounded-xl"></div>
         <form id="assignment-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Kund</label>
-            <input name="customer" type="text" required class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="Företag AB" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Kund</label>
+            <input name="customer" type="text" required class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="Företag AB" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Pris (kr/h)</label>
-            <input name="price" type="number" min="0" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="900" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Pris (kr/h)</label>
+            <input name="price" type="number" min="0" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="900" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Startdatum</label>
-            <input name="start_date" type="date" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Startdatum</label>
+            <input name="start_date" type="date" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Slutdatum</label>
-            <input name="end_date" type="date" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Slutdatum</label>
+            <input name="end_date" type="date" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Marginal (%)</label>
-            <input name="margin" type="number" min="0" max="100" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="30" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Marginal (%)</label>
+            <input name="margin" type="number" min="0" max="100" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="30" />
           </div>
           <div class="flex items-end">
             <button type="submit" class="w-full px-4 py-3 text-sm font-semibold text-white bg-orange-500 rounded-xl hover:bg-orange-600 transition-colors">Lägg till uppdrag</button>
@@ -623,13 +625,13 @@ function renderConsultant(id) {
 
   return `
     <div class="flex items-center justify-between mb-6">
-      <button class="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-orange-500" onclick="navigateTo('summary')">
+      <button class="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-orange-400" onclick="navigateTo('summary')">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
         Tillbaka till översikt
       </button>
-      <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-xl hover:bg-red-100 transition-colors" onclick="openDeleteModal('${c.id}')">
+      <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-400 bg-red-900/30 rounded-xl hover:bg-red-900/50 transition-colors" onclick="openDeleteModal('${c.id}')">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
         </svg>
@@ -640,8 +642,8 @@ function renderConsultant(id) {
     <div class="flex items-center gap-4 mb-8">
       <div class="flex items-center justify-center w-14 h-14 text-xl font-bold ${color.text} ${color.bg} rounded-full">${c.initials}</div>
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">${c.name}</h1>
-        <p class="text-sm text-gray-400">${c.current_customer ? "Just nu hos " + c.current_customer : "Ej tilldelad"}</p>
+        <h1 class="text-2xl font-bold text-gray-100">${c.name}</h1>
+        <p class="text-sm text-gray-500">${c.current_customer ? "Just nu hos " + c.current_customer : "Ej tilldelad"}</p>
       </div>
     </div>
 
@@ -653,71 +655,71 @@ function renderConsultant(id) {
 
 function renderAddForm() {
   return `
-    <button class="flex items-center gap-2 mb-6 text-sm font-medium text-gray-500 hover:text-orange-500" onclick="navigateTo('summary')">
+    <button class="flex items-center gap-2 mb-6 text-sm font-medium text-gray-400 hover:text-orange-400" onclick="navigateTo('summary')">
       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
       </svg>
       Tillbaka till översikt
     </button>
 
-    <h1 class="mb-8 text-2xl font-bold text-gray-900">Lägg till ny konsult</h1>
+    <h1 class="mb-8 text-2xl font-bold text-gray-100">Lägg till ny konsult</h1>
 
-    <div id="form-error" class="hidden mb-4 p-3 text-sm text-red-700 bg-red-50 rounded-xl"></div>
+    <div id="form-error" class="hidden mb-4 p-3 text-sm text-red-400 bg-red-900/30 rounded-xl"></div>
 
     <form id="add-form" class="max-w-2xl">
-      <div class="p-6 mb-6 bg-white rounded-2xl shadow-sm">
-        <h2 class="mb-4 text-lg font-semibold text-gray-900">Personuppgifter</h2>
+      <div class="p-6 mb-6 bg-gray-800 rounded-2xl border border-gray-700">
+        <h2 class="mb-4 text-lg font-semibold text-gray-100">Personuppgifter</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Namn</label>
-            <input name="name" type="text" required class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="Erik Andersson" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Namn</label>
+            <input name="name" type="text" required class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="Erik Andersson" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Initialer</label>
-            <input name="initials" type="text" required maxlength="3" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="EA" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Initialer</label>
+            <input name="initials" type="text" required maxlength="3" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="EA" />
           </div>
         </div>
       </div>
 
-      <div class="p-6 mb-6 bg-white rounded-2xl shadow-sm">
-        <h2 class="mb-4 text-lg font-semibold text-gray-900">Nuvarande uppdrag</h2>
+      <div class="p-6 mb-6 bg-gray-800 rounded-2xl border border-gray-700">
+        <h2 class="mb-4 text-lg font-semibold text-gray-100">Nuvarande uppdrag</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Kund</label>
-            <input name="current_customer" type="text" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="Volvo Group" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Kund</label>
+            <input name="current_customer" type="text" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="Volvo Group" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Pris (kr/h)</label>
-            <input name="price" type="number" min="0" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="950" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Pris (kr/h)</label>
+            <input name="price" type="number" min="0" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="950" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Startdatum</label>
-            <input name="start_date" type="date" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Startdatum</label>
+            <input name="start_date" type="date" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Slutdatum</label>
-            <input name="end_date" type="date" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Slutdatum</label>
+            <input name="end_date" type="date" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Marginal (%)</label>
-            <input name="margin" type="number" min="0" max="100" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="35" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Marginal (%)</label>
+            <input name="margin" type="number" min="0" max="100" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="35" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Timmar / Månad</label>
-            <input name="hours_per_month" type="number" min="0" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="160" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Timmar / Månad</label>
+            <input name="hours_per_month" type="number" min="0" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="160" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Total omsättning (kr)</label>
-            <input name="total_revenue" type="number" min="0" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="456000" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Total omsättning (kr)</label>
+            <input name="total_revenue" type="number" min="0" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="456000" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium text-gray-700">Ackumulerad marginal (kr)</label>
-            <input name="accumulated_margin" type="number" min="0" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="159600" />
+            <label class="block mb-1 text-sm font-medium text-gray-400">Ackumulerad marginal (kr)</label>
+            <input name="accumulated_margin" type="number" min="0" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="159600" />
           </div>
         </div>
         <div class="mt-4">
-          <label class="block mb-1 text-sm font-medium text-gray-700">Kompetenser (kommaseparerade)</label>
-          <input name="skills" type="text" class="block w-full px-4 py-3 text-sm text-gray-700 bg-stone-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="React, TypeScript, AWS" />
+          <label class="block mb-1 text-sm font-medium text-gray-400">Kompetenser (kommaseparerade)</label>
+          <input name="skills" type="text" class="block w-full px-4 py-3 text-sm text-gray-200 bg-gray-700 rounded-xl border border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50" placeholder="React, TypeScript, AWS" />
         </div>
       </div>
 
@@ -761,7 +763,7 @@ function attachFormListeners() {
       skills
     };
 
-    const { error } = await supabase.from("consultants").insert([row]);
+    const { error } = await db.from("consultants").insert([row]);
 
     if (error) {
       errorEl.textContent = "Fel vid tillägg av konsult: " + error.message;
@@ -800,7 +802,7 @@ function attachAssignmentFormListeners(consultantId) {
       margin: parseInt(fd.get("margin")) || 0
     };
 
-    const { error } = await supabase.from("previous_assignments").insert([row]);
+    const { error } = await db.from("previous_assignments").insert([row]);
 
     if (error) {
       errorEl.textContent = "Fel vid tillägg av uppdrag: " + error.message;
@@ -815,12 +817,12 @@ function attachAssignmentFormListeners(consultantId) {
 }
 
 async function handleLogin(email, password) {
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { error } = await db.auth.signInWithPassword({ email, password });
   return error;
 }
 
 async function handleLogout() {
-  await supabase.auth.signOut();
+  await db.auth.signOut();
   showLogin();
 }
 
@@ -869,7 +871,7 @@ document.getElementById("confirm-delete-btn").addEventListener("click", async ()
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await db.auth.getSession();
   if (session) {
     await showApp();
   } else {

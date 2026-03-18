@@ -1,4 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none">
-  <path d="M4 8L16 32L28 8" stroke="#F97316" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="36" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#F97316">alvet</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 160" fill="none">
+  <!-- Outer left leg -->
+  <polygon points="0,20 12,20 57,110 45,110" fill="#cca46a" />
+  <!-- Inner V -->
+  <polygon points="19,20 31,20 61,80 91,20 103,20 61,104" fill="#cca46a" />
+  <!-- Text -->
+  <text x="51.5" y="145" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="16" font-weight="400" letter-spacing="6" text-anchor="middle" fill="#cca46a">VALVET</text>
 </svg>

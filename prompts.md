@@ -105,3 +105,29 @@ Translate all UI texts to Swedish and enable full manual data entry:
 - Inserts directly to `previous_assignments` table linked to consultant
 - Page refreshes after adding to show new assignment
 - Delete button on each previous assignment card for removal
+
+## #5 — Syntax Fix, Logo & Dark Theme
+
+Fix syntax error, add branding logo, and switch to dark theme:
+
+**Syntax error fix:**
+- Renamed `const supabase` to `const db` to avoid redeclaring the global `supabase` identifier set by the Supabase CDN library
+- Updated all references throughout the codebase (`supabase.from(...)`, `supabase.auth.*`) to use `db`
+
+**Logo:**
+- Created `valvet-logo.svg` with orange "V" icon + "alvet" text
+- Replaced `<h1>Valvet</h1>` in sidebar with `<img>` logo element
+- Added logo to login screen (centered)
+
+**Dark theme:**
+- Body background: `bg-gray-950`, text: `text-gray-100`
+- Sidebar: `bg-gray-900` with `border-gray-800`
+- Cards/panels: `bg-gray-800` with `border-gray-700`
+- Inputs: `bg-gray-700` with `border-gray-600`, `text-gray-200`
+- Avatar colors: dark-mode opacity variants (`bg-orange-900/40`, etc.)
+- Skill badges: dark variants (`bg-purple-900/30`, etc.)
+- Status badges: dark backgrounds (`bg-green-900/30`, etc.)
+- Progress ring background stroke: `#374151`, text fill: `#F3F4F6`
+- Modals: `bg-gray-800` with `border-gray-700`
+- Focus rings: `focus:ring-orange-500/50`
+- All hover states updated for dark context
